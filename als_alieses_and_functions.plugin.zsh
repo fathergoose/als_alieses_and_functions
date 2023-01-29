@@ -32,7 +32,7 @@ google () {
 # fpath=(~/.config/zsh/functions $fpath)
 # autoload -Uz manydots-magic
 # manydots-magic
-source ~/.config/zsh/functions/pm.zsh
+# source ~/.config/zsh/functions/pm.zsh
 
 function gcmsg() {
 BAD_SPELLINGS="$(echo "$*" | hunspell -l)"
@@ -68,3 +68,43 @@ alias garc="git add --all && git rebase --continue"
 # boards - list boards from the augintel workspace
 # cards - Get cards from the main board
 # me - Get cards assigned to me
+
+ function pm() {
+    local pfile=$HOME/.projects
+    local usage="Usage: pm [-a|-d|-l|-h] [path] [name]"
+
+    # List projects
+    if [[ $1 == "-l" ]]; then
+      echo -e "\e[4m\e[1mKey\e[0m\t\e[4m\e[1mPath\e[0m" 
+      awk '{print " " $1 "\t" $2}' $pfile
+    # Add project
+    elif [[ $1 == "-a" && -d $2 && -n $3 ]]; then
+        ppath=$2
+        pname=$3
+        echo "$pname $ppath" >> $pfile
+    # Remove project
+    elif [[ $1 == "-d" ]]; then
+        # sed -i '/^'$2'\s/d' $pfile # GNU sed
+        sed -i "" "/^$2 /d" $pfile # BSD (macOS) sed
+    elif [[ $1 == "-h" ]]; then
+        echo $usage
+        echo "  -l: list projects"
+        echo "  -a: add project"
+        echo "  -d: delete project"
+        echo "  -h: help"
+        echo "Examples:"
+        echo "  pm <name> - cd to project"
+        echo "  pm -a <path> <name> - add project"
+    elif [[ ${1:0:1} == '-' ]]; then
+        echo "Invalid option: $1\n"
+        echo $usage
+    elif [[ -n $1 ]]; then
+        # Jump to project
+        cd $(awk '$1 == "'$1'" {print $2}' $pfile)
+    else
+        echo $usage
+    fi
+}
+
+
+
