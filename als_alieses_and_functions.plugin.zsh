@@ -29,9 +29,9 @@ google () {
   chrome "https://www.google.com/search?q=$*"
 }
 
-fpath=(~/.config/zsh/functions $fpath)
-autoload -Uz manydots-magic
-manydots-magic
+# fpath=(~/.config/zsh/functions $fpath)
+# autoload -Uz manydots-magic
+# manydots-magic
 source ~/.config/zsh/functions/pm.zsh
 
 function gcmsg() {
