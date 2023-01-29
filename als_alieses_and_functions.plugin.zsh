@@ -62,7 +62,7 @@ function push() {
 alias t="touch"
 alias garc="git add --all && git rebase --continue"
 
-compdef _rg hg
+# compdef _rg hg
 
 # Trello commands `trl cards...`
 # boards - list boards from the augintel workspace
